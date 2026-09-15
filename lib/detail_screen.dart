@@ -19,10 +19,10 @@ class DetailScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _row('Name', monster.name),
-            // TODO 1: add a 'Type' row here.
-            // TODO 1: add an 'Element' row here.
+            _row('Type', monster.type),
+            _row('Element', monster.element),
+            _row('Attack', '${monster.attack}'),
             _row('HP', '${monster.hp}'),
-            // TODO 1: add an 'Attack' row here.
             _row('Region', monster.region),
           ],
         ),
@@ -31,13 +31,13 @@ class DetailScreen extends StatelessWidget {
   }
 
   Widget _row(String label, String value) => Padding(
-        padding: const EdgeInsets.symmetric(vertical: 6),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(label, style: const TextStyle(fontWeight: FontWeight.bold)),
-            Text(value),
-          ],
-        ),
-      );
+    padding: const EdgeInsets.symmetric(vertical: 6),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(label, style: const TextStyle(fontWeight: FontWeight.bold)),
+        Text(value),
+      ],
+    ),
+  );
 }

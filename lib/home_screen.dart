@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'data.dart';
 import 'stats.dart';
+import 'detail_screen.dart';
 
 /// HAUDEX home: a stats card over a filterable list of monsters.
 ///
@@ -58,7 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                   // BUG D: this updates the field but never calls setState, so
                   // the list and the "Showing N" count never change.
-                  onChanged: (v) => _filterType = v,
+                  onChanged: (v) => setState(() => _filterType = v),
                 ),
                 const Spacer(),
                 Text('Showing ${visible.length} of ${all.length}'),
@@ -71,7 +72,7 @@ class _HomeScreenState extends State<HomeScreen> {
               itemBuilder: (context, index) {
                 // BUG E: this always reads the first monster, so every row in
                 // the list shows the same one. It should use `index`.
-                final m = visible[0];
+                final m = visible[index];
                 return ListTile(
                   title: Text(m.name),
                   subtitle: Text('${m.type} - ${m.region}'),
@@ -79,7 +80,14 @@ class _HomeScreenState extends State<HomeScreen> {
                   // TODO 1: when a tile is tapped, open DetailScreen for THIS monster
                   // (import detail_screen.dart, then Navigator.push a
                   // MaterialPageRoute). Right now tapping a tile does nothing.
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => DetailScreen(monster: m),
+                      ),
+                    );
+                  },
                 );
               },
             ),
@@ -90,13 +98,13 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _stat(String label, String value) => Padding(
-        padding: const EdgeInsets.symmetric(vertical: 4),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(label),
-            Text(value, style: const TextStyle(fontWeight: FontWeight.bold)),
-          ],
-        ),
-      );
+    padding: const EdgeInsets.symmetric(vertical: 4),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(label),
+        Text(value, style: const TextStyle(fontWeight: FontWeight.bold)),
+      ],
+    ),
+  );
 }
